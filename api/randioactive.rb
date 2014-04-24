@@ -17,12 +17,12 @@ def process_data(data)
     # Processing and saving a click (with special timestamp)
     @click = @json_data["data"]["click"]
     @c_click = {"click"=>@click}.to_json
-    File.open("./data/click.json", "a+") {|f| f.puts(@c_click)}
+    File.open(".././data/click.json", "a+") {|f| f.puts(@c_click)}
   elsif @json_data["type"] == "cpm"
     # Processing and saving the clicks per minute (with timestamp)
     @cpm = @json_data["data"]["cpm"]
     @c_cpm = {"cpm"=>@cpm, "timestamp"=>@timestamp}.to_json
-    File.open("./data/cpm.json", "a+") {|f| f.puts(@c_cpm)}
+    File.open(".././data/cpm.json", "a+") {|f| f.puts(@c_cpm)}
   elsif @json_data["type"] == "random"
     # "yo dawg, I herd you like a bitstream socket..."
     # @r_bit  = @json_data["module"]["random"]["bit"]
@@ -31,11 +31,11 @@ def process_data(data)
     # Processing and saving a random byte (with timestamp)
     @r_byte = @json_data["data"]["random"]["byte"]
     @c_byte = {"byte"=>@r_byte, "timestamp"=>@timestamp}
-    File.open("./data/random.json", "a+") {|f| f.puts(@c_byte)}
+    File.open(".././data/random.json", "a+") {|f| f.puts(@c_byte)}
 
     # Making sure the random bytes are hot and fresh
-    if `wc -l ./data/random.json`.split.first.to_i < 20
-      File.delete("./data.random.json")
+    if `wc -l ./data/random.json`.split.first.to_i > 20
+      File.delete(".././data.random.json")
     end
   else
     # Throws an error. Obviously.
@@ -48,3 +48,28 @@ post '/api/update' do
   process_data(request.body.read)
 end
 
+get '/api/:type' do
+  if params[:type] == "click"
+    File.open('.././data/click.json', 'r') {|f| "#{f}"}
+  elsif params[:type] == "cpm"
+    File.open('.././data/cpm.json', 'r') {|f| "#{f}"}
+  elsif params[:type] == "random"
+    File.open('.././data/random.json', 'r') {|f| "#{f}"}
+  else
+    "NOPE."
+  end
+end
+
+get '/api/*/:current' do
+  if params[:current] == "current"
+    @current = true
+  end
+
+  case params[:splat][0]
+  when "click" then "#{@c_click}"
+  when "cpm" then "#{@c_cpm}"
+  when "random" then "#{@c_byte}"
+  else "NOPE."
+  end
+
+end

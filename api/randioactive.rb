@@ -50,11 +50,14 @@ end
 
 get '/api/:type' do
   if params[:type] == "click"
-    File.open('.././data/click.json', 'r') {|f| "#{f}"}
+    @f = File.open('.././data/click.json', 'r')
+    "#{@f}"
   elsif params[:type] == "cpm"
-    File.open('.././data/cpm.json', 'r') {|f| "#{f}"}
+    @f = File.open('.././data/cpm.json', 'r') {|f| "#{f}"}
+    "#{@f}"
   elsif params[:type] == "random"
-    File.open('.././data/random.json', 'r') {|f| "#{f}"}
+    @f = File.open('.././data/random.json', 'r') {|f| "#{f}"}
+    "#{@f}" 
   else
     "NOPE."
   end

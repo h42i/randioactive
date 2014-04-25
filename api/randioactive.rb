@@ -43,12 +43,14 @@ def process_data(data)
   end
 end
 
+# Configuring how the update request is processed
 post '/api/update' do
   request.body.rewind
   process_data(request.body.read)
 end
 
 get '/api/:type' do
+  puts "[REQUEST]"
   if params[:type] == "click"
     File.open('.././data/click.json', 'r')
   elsif params[:type] == "cpm"
@@ -60,16 +62,24 @@ get '/api/:type' do
   end
 end
 
-get '/api/*/:current' do
-  if params[:current] == "current"
-    @current = true
+get '/api/*/current' do
+  
+  @param = params[:splat].first.to_s
+
+  if @param == "click"
+    @c_click
+  elsif @param == "cpm"
+    @c_cpm
+  elsif @param == "random"
+    @c_byte
+  else
+    "NOPE."
   end
 
-  case params[:splat][0]
-  when "click" then "#{@c_click}"
-  when "cpm" then "#{@c_cpm}"
-  when "random" then "#{@c_byte}"
-  else "NOPE."
-  end
-
+ # case params[:splat].first.to_s
+ # when "click" then puts @c_click
+ # when "cpm" then @c_cpm
+ # when "random" then @c_byte
+ # else "NOPE."
+ # end
 end

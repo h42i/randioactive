@@ -49,6 +49,7 @@ void loop() {
   if(digitalRead(8) == HIGH) {
     if(lastRead == false) {
       
+      client.publish("hasi/events/random/click", "\0");
       clicks++;
       
       lastRead = true;

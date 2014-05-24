@@ -1,14 +1,4 @@
-randioactive
-============
+# randioactive
+---
 
-Counting clicks and generating true random numbers.
-
-How does it work?
------------------
-
-VOODOO!
-
-"CAN I HAZ TOO?"
-----------------
-
-Of course.
+Generate true random numbers with your Arduino (+ Ethernetshield) and publish them to your MQTT network.

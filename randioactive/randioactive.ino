@@ -26,7 +26,9 @@ PubSubClient client(server, 1883, callback, ethClient);
 
 void setup() {
   // Initializing ethernet and serial connection
-  Ethernet.begin(mac, ip);
+  if(!Ethernet.begin(mac)) {
+    Ethernet.begin(mac, ip);
+  }
   client.connect("geiger");
   Serial.begin(9600);
   
